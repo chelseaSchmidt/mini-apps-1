@@ -82,21 +82,13 @@ const model = {
     columns.push(model.board.map(row => row[1]));
     columns.push(model.board.map(row => row[2]));
     columns.forEach(col => {
-      let xSpots = 0;
-      let oSpots = 0;
-      col.forEach(cell =>{
-        if (cell === 'X') {
-          xSpots++;
-        } else if (cell === 'O') {
-          oSpots++;
+      if (col[0] !== '') {
+        if (col[0] === col[1]) {
+          if (col[1] === col[2]) {
+            model.gameCompleted = true;
+            view.showWinOrTie(col[0], false);
+          }
         }
-      });
-      if (xSpots === 3) {
-        model.gameCompleted = true;
-        view.showWinOrTie('X', false);
-      } else if (oSpots === 3) {
-        model.gameCompleted = true;
-        view.showWinOrTie('O', false);
       }
     });
 
