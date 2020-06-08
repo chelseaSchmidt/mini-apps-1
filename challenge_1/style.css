@@ -1,0 +1,17 @@
+#game-container {
+  border: solid black;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.board-row {
+  border: solid black;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.board-cell {
+  border: solid black;
+}
