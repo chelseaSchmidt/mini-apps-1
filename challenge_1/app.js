@@ -7,8 +7,11 @@ cellElements.forEach((cell) => {
   });
 });
 
-//event listener for reset button click
-  //on click, empty all cells in VIEW and MODEL
+let newGameButton = document.getElementById('new-game');
+newGameButton.addEventListener('click', () => {
+  model.resetModel();
+  view.resetBoard();
+});
 
 //MODEL
 const model = {
@@ -150,8 +153,16 @@ const model = {
   },
 
   resetModel: () => {
-
+    model.board = [
+      ['','',''],
+      ['','',''],
+      ['','',''],
+    ];
+    model.player = 'X';
+    model.gameCompleted = false;
+    model.spotsUsed = 0;
   }
+
 };
 
 
@@ -176,6 +187,11 @@ const view = {
   },
 
   resetBoard: () => {
-
+    let cellElements = document.getElementsByClassName('board-cell');
+    cellElements = [...cellElements];
+    cellElements.forEach(cell => {
+      cell.innerHTML = '';
+    });
+    view.changeDisplayedTurn('X');
   }
 };
