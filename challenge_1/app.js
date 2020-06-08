@@ -82,9 +82,9 @@ const model = {
 
     //Column win:
     const columns = [];
-    columns.push(model.board.map(row => row[0]));
-    columns.push(model.board.map(row => row[1]));
-    columns.push(model.board.map(row => row[2]));
+    for (let i = 0; i < 3; i++) {
+      columns.push(model.board.map(row => row[i]));
+    }
     columns.forEach(col => {
       if (col[0] !== '') {
         if (col[0] === col[1]) {
