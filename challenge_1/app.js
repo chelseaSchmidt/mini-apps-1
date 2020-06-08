@@ -41,14 +41,15 @@ const model = {
     const column = model.columns[targetCell.id[0]];
     const position = model.board[row][column];
 
-    if (position === 'X' || position === 'O') {
-      alert('This spot has already been taken! Please try again.');
-
-    } else if (model.gameCompleted) {
+    if (model.gameCompleted) {
       alert('The game has been completed! Please start a new game to continue.');
+
+    } else if (position === 'X' || position === 'O') {
+      alert('This spot has already been taken! Please try again.');
 
     } else {
       model.board[row][column] = player;
+      model.spotsUsed++;
       view.renderClick(player, targetCell);
       model.checkForWinOrTie();
     }
@@ -130,17 +131,7 @@ const model = {
     }
 
     //if no spots left on board and win condition hasn't been met
-    const totalSpotsUsed = model.board.reduce((spotsUsed, row) => {
-      return spotsUsed + row.reduce((rowSpotsUsed, cell) => {
-        if (cell !== '') {
-          return ++rowSpotsUsed;
-        } else {
-          return rowSpotsUsed;
-        }
-      }, 0);
-    }, 0);
-    console.log(totalSpotstotalSpotsUsed);
-    if (totalSpotsUsed === 9) {
+    if (model.spotsUsed === 9) {
       model.gameCompleted = true;
       view.showWinOrTie(null, true);
     } else {
