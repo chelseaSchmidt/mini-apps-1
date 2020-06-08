@@ -127,8 +127,7 @@ const model = {
       }
     }
 
-    //Tie combinations
-    //if all rows have at least 2 pieces placed and they are a mixture
+    //No possible wins left on rows:
     const isEachRowMixed = model.board.map(row => {
       let xPresent = false;
       let oPresent = false;
@@ -144,14 +143,12 @@ const model = {
           return total;
         }
       }, 0);
-      console.log(xPresent, oPresent);
       if (count >= 2 && xPresent && oPresent) {
         return true;
       } else {
         return false;
       }
     });
-    console.log(isEachRowMixed);
     const rowsTied = isEachRowMixed.reduce((priorRowsAreMixed, rowIsMixed) => {
       if (priorRowsAreMixed) {
         if (rowIsMixed) {
@@ -165,11 +162,45 @@ const model = {
     });
 
     if (rowsTied) {
-      //if all columns have at least 2 pieces placed and they are a mixture
-        //if all diagonals have at least 2 pieces placed and they are a mixture
-          //call a tie
+      //No possible wins left on columns:
+      const isEachColumnMixed = columns.map(col => {
+        let xPresent = false;
+        let oPresent = false;
+        const count = col.reduce((total, marker) => {
+          if (marker !== '') {
+            if (marker === 'X') {
+              xPresent = true;
+            } else {
+              oPresent = true;
+            }
+            return ++total;
+          } else {
+            return total;
+          }
+        }, 0);
+        if (count >= 2 && xPresent && oPresent) {
+          return true;
+        } else {
+          return false;
+        }
+      });
+      const colsTied = isEachColumnMixed.reduce((priorColsAreMixed, colIsMixed) => {
+        if (priorColsAreMixed) {
+          if (colIsMixed) {
+            return true;
+          } else {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      });
+      if (colsTied) {
           model.gameCompleted = true;
           view.showWinOrTie(null, true);
+      } else {
+        model.changeTurn();
+      }
     } else {
       model.changeTurn();
     }
