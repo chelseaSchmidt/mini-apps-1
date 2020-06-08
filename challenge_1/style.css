@@ -1,3 +1,25 @@
+/*
+==============================
+HEADER
+==============================
+*/
+#header-container {
+  border: solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.header {
+  border: solid black;
+}
+
+/*
+==============================
+GAME AREA
+==============================
+*/
 #game-container {
   border: solid black;
   display: flex;
