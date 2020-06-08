@@ -1,11 +1,22 @@
 //CONTROLLER
 const initialize = () => {
-  let cellElements = document.getElementsByClassName('board-cell');
-  cellElements = [...cellElements];
-  cellElements.forEach((cell) => {
-    cell.addEventListener('click', (event) => {
+
+  const gameBoard = document.getElementById('game-container');
+  gameBoard.addEventListener('click', event => {
+    const positions = {
+      A1: true,
+      B1: true,
+      C1: true,
+      A2: true,
+      B2: true,
+      C2: true,
+      A3: true,
+      B3: true,
+      C3: true
+    };
+    if (event.target.id in positions) {
       model.placeMarker(model.player, event.target);
-    });
+    }
   });
 
   let newGameButton = document.getElementById('new-game');
