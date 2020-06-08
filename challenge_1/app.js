@@ -156,21 +156,21 @@ const model = {
 
 //VIEW
 const view = {
+  turnTracker: document.getElementById('turn-tracker'),
+
   renderClick: (player, eventTarget) => {
     eventTarget.append(player);
   },
 
   changeDisplayedTurn: (newPlayer) => {
-    const turnTracker = document.getElementById('turn-tracker');
-    turnTracker.innerHTML = `Player ${newPlayer}'s Turn`;
+    view.turnTracker.innerHTML = `Player ${newPlayer}'s Turn`;
   },
 
   showWinOrTie: (winner, wasTie) => {
-    const turnTracker = document.getElementById('turn-tracker');
     if (wasTie) {
-      turnTracker.innerHTML = `It's a Tie!`;
+      view.turnTracker.innerHTML = `It's a Tie!`;
     } else {
-      turnTracker.innerHTML = `Player ${winner} Has Won the Game!`;
+      view.turnTracker.innerHTML = `Player ${winner} Has Won the Game!`;
     }
   },
 
