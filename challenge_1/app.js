@@ -1,17 +1,21 @@
 //CONTROLLER
-let cellElements = document.getElementsByClassName('board-cell');
-cellElements = [...cellElements];
-cellElements.forEach((cell) => {
-  cell.addEventListener('click', (event) => {
-    model.placeMarker(model.player, event.target);
+const initialize = () => {
+  let cellElements = document.getElementsByClassName('board-cell');
+  cellElements = [...cellElements];
+  cellElements.forEach((cell) => {
+    cell.addEventListener('click', (event) => {
+      model.placeMarker(model.player, event.target);
+    });
   });
-});
 
-let newGameButton = document.getElementById('new-game');
-newGameButton.addEventListener('click', () => {
-  model.resetModel();
-  view.resetBoard();
-});
+  let newGameButton = document.getElementById('new-game');
+  newGameButton.addEventListener('click', () => {
+    model.resetModel();
+    view.resetBoard();
+  });
+}
+
+initialize();
 
 //MODEL
 const model = {
