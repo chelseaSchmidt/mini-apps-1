@@ -14,6 +14,8 @@ cellElements.forEach((cell) => {
 const model = {
   player: 'X',
 
+  gameCompleted: false,
+
   board: [
     ['','',''],
     ['','',''],
@@ -40,6 +42,9 @@ const model = {
     if (position === 'X' || position === 'O') {
       alert('This spot has already been taken! Please try again.');
 
+    } else if (model.gameCompleted) {
+      alert('The game has been completed! Please start a new game to continue.');
+
     } else {
       model.board[row][column] = player;
       view.renderClick(player, targetCell);
@@ -48,9 +53,35 @@ const model = {
   },
 
   checkForWinOrTie: () => {
+    //Winning combinations
+    //if a row has three of same char
+    model.board.forEach(row => {
+      let xSpots = 0;
+      let oSpots = 0;
+      row.forEach(cell => {
+        if (cell === 'X') {
+          xSpots++;
+        } else if (cell === 'O') {
+          oSpots++;
+        }
+      });
+      if (xSpots === 3) {
+        model.gameCompleted = true;
+        view.showWinOrTie;
+      }
+    });
+    //if a column has three of same char
+    //if A1, B2, and C3 have same non-empty char
+    //if A3, B2, and C1 have same non-empty char
+
+    //Tie combinations
+    //if all rows have at least 2 pieces placed and they are a mixture
+      //if all columns have at least 2 pieces placed and they are a mixture
+        //if all diagonals have at least 2 pieces placed and they are a mixture
+          //call a tie
 
 
-    //if game has not ended
+    //else
       model.changeTurn();
   },
 
