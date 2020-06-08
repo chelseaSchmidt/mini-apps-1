@@ -4,15 +4,12 @@ HEADER
 ==============================
 */
 #header-container {
-  border: solid black;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
+  align-content: center;
   align-items: center;
   flex-direction: column;
-}
-
-.header {
-  border: solid black;
+  padding: 10px;
 }
 
 /*
@@ -21,14 +18,12 @@ GAME AREA
 ==============================
 */
 #game-container {
-  border: solid black;
   display: flex;
   justify-content: center;
   flex-direction: column;
 }
 
 .board-row {
-  border: solid black;
   display: flex;
   justify-content: center;
   flex-direction: row;
@@ -36,7 +31,8 @@ GAME AREA
 
 .board-cell {
   border: solid black;
-  height: 20px;
-  width: 20px;
+  height: 50px;
+  width: 50px;
   text-align: center;
+  line-height: 50px;
 }
