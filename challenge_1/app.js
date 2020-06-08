@@ -4,7 +4,7 @@ let cellElements = document.getElementsByClassName('board-cell');
 cellElements = [...cellElements];
 cellElements.forEach((cell) => {
   cell.addEventListener('click', (event) => {
-    console.dir(event.target);
+    event.target.append('X');
   });
 });
   //on click, place an X or O in target cell in VIEW and MODEL
