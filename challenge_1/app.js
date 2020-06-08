@@ -22,21 +22,21 @@ const model = {
     ['','',''],
   ],
 
-  rows: {
+  columns: {
     A: 0,
     B: 1,
     C: 2
   },
 
-  columns: {
+  rows: {
     1: 0,
     2: 1,
     3: 2
   },
 
   placeMarker: (player, targetCell) => {
-    const row = model.rows[targetCell.id[0]];
-    const column = model.columns[targetCell.id[1]];
+    const row = model.rows[targetCell.id[1]];
+    const column = model.columns[targetCell.id[0]];
     const position = model.board[row][column];
 
     if (position === 'X' || position === 'O') {
@@ -67,7 +67,10 @@ const model = {
       });
       if (xSpots === 3) {
         model.gameCompleted = true;
-        view.showWinOrTie;
+        view.showWinOrTie('X');
+      } else if (oSpots === 3) {
+        model.gameCompleted = true;
+        view.showWinOrTie('O');
       }
     });
     //if a column has three of same char
@@ -112,8 +115,8 @@ const view = {
     turnTracker.innerHTML = `Player ${newPlayer}'s Turn`;
   },
 
-  showWinOrTie: () => {
-
+  showWinOrTie: (winner) => {
+    console.log('the winner is: ' + winner);
   },
 
   resetBoard: () => {
