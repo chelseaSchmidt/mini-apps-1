@@ -67,12 +67,16 @@ const model = {
       });
       if (xSpots === 3) {
         model.gameCompleted = true;
-        view.showWinOrTie('X');
+        view.showWinOrTie('X', false);
       } else if (oSpots === 3) {
         model.gameCompleted = true;
-        view.showWinOrTie('O');
+        view.showWinOrTie('O', false);
       }
     });
+
+    if (model.gameCompleted) {
+      return;
+    }
 
     //Column win:
     const columns = [];
@@ -91,13 +95,16 @@ const model = {
       });
       if (xSpots === 3) {
         model.gameCompleted = true;
-        view.showWinOrTie('X');
+        view.showWinOrTie('X', false);
       } else if (oSpots === 3) {
         model.gameCompleted = true;
-        view.showWinOrTie('O');
+        view.showWinOrTie('O', false);
       }
     });
 
+    if (model.gameCompleted) {
+      return;
+    }
 
     //Major diagonal win:
     const A1 = model.board[model.rows[1]][model.columns.A];
@@ -106,7 +113,7 @@ const model = {
     if (A1.length > 0) {
       if (A1 === B2 && B2 === C3) {
         model.gameCompleted = true;
-        return view.showWinOrTie(A1);
+        return view.showWinOrTie(A1, false);
       }
     }
 
@@ -116,7 +123,7 @@ const model = {
     if (A3.length > 0) {
       if (A3 === B2 && B2 === C1) {
         model.gameCompleted = true;
-        return view.showWinOrTie(A3);
+        return view.showWinOrTie(A3, false);
       }
     }
 
@@ -158,8 +165,12 @@ const view = {
     turnTracker.innerHTML = `Player ${newPlayer}'s Turn`;
   },
 
-  showWinOrTie: (winner) => {
-    console.log('the winner is: ' + winner);
+  showWinOrTie: (winner, wasTie) => {
+    const turnTracker = document.getElementById('turn-tracker');
+    if (wasTie) {
+      turnTracker.innerHTML = `It's a Tie!`;
+    }
+    turnTracker.innerHTML = `Player ${winner} Has Won the Game!`;
   },
 
   resetBoard: () => {
