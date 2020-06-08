@@ -53,7 +53,7 @@ const model = {
   },
 
   checkForWinOrTie: () => {
-    //Winning combinations
+
     //Row win:
     model.board.forEach(row => {
       let xSpots = 0;
@@ -73,6 +73,7 @@ const model = {
         view.showWinOrTie('O');
       }
     });
+
     //Column win:
     const columns = [];
     columns.push(model.board.map(row => row[0]));
@@ -98,9 +99,26 @@ const model = {
     });
 
 
-    //Diagonals:
-    //if A1, B2, and C3 have same non-empty char
-    //if A3, B2, and C1 have same non-empty char
+    //Major diagonal win:
+    const A1 = model.board[model.rows[1]][model.columns.A];
+    const B2 = model.board[model.rows[2]][model.columns.B];
+    const C3 = model.board[model.rows[3]][model.columns.C];
+    if (A1.length > 0) {
+      if (A1 === B2 && B2 === C3) {
+        model.gameCompleted = true;
+        return view.showWinOrTie(A1);
+      }
+    }
+
+    //Minor diagonal win:
+    const A3 = model.board[model.rows[3]][model.columns.A];
+    const C1 = model.board[model.rows[1]][model.columns.C];
+    if (A3.length > 0) {
+      if (A3 === B2 && B2 === C1) {
+        model.gameCompleted = true;
+        return view.showWinOrTie(A3);
+      }
+    }
 
     //Tie combinations
     //if all rows have at least 2 pieces placed and they are a mixture
