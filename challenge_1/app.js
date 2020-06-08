@@ -62,21 +62,13 @@ const model = {
 
     //Row win:
     model.board.forEach(row => {
-      let xSpots = 0;
-      let oSpots = 0;
-      row.forEach(cell => {
-        if (cell === 'X') {
-          xSpots++;
-        } else if (cell === 'O') {
-          oSpots++;
+      if (row[0] !== '') {
+        if (row[0] === row[1]) {
+          if (row[1] === row[2]) {
+            model.gameCompleted = true;
+            view.showWinOrTie(row[0], false);
+          }
         }
-      });
-      if (xSpots === 3) {
-        model.gameCompleted = true;
-        view.showWinOrTie('X', false);
-      } else if (oSpots === 3) {
-        model.gameCompleted = true;
-        view.showWinOrTie('O', false);
       }
     });
 
