@@ -34,6 +34,8 @@ const model = {
     3: 2
   },
 
+  spotsUsed: 0,
+
   placeMarker: (player, targetCell) => {
     const row = model.rows[targetCell.id[1]];
     const column = model.columns[targetCell.id[0]];
@@ -127,80 +129,20 @@ const model = {
       }
     }
 
-    //No possible wins left on rows:
-    const isEachRowMixed = model.board.map(row => {
-      let xPresent = false;
-      let oPresent = false;
-      const count = row.reduce((total, marker) => {
-        if (marker !== '') {
-          if (marker === 'X') {
-            xPresent = true;
-          } else {
-            oPresent = true;
-          }
-          return ++total;
+    //if no spots left on board and win condition hasn't been met
+    const totalSpotsUsed = model.board.reduce((spotsUsed, row) => {
+      return spotsUsed + row.reduce((rowSpotsUsed, cell) => {
+        if (cell !== '') {
+          return ++rowSpotsUsed;
         } else {
-          return total;
+          return rowSpotsUsed;
         }
       }, 0);
-      if (count >= 2 && xPresent && oPresent) {
-        return true;
-      } else {
-        return false;
-      }
-    });
-    const rowsTied = isEachRowMixed.reduce((priorRowsAreMixed, rowIsMixed) => {
-      if (priorRowsAreMixed) {
-        if (rowIsMixed) {
-          return true;
-        } else {
-          return false;
-        }
-      } else {
-        return false;
-      }
-    });
-
-    if (rowsTied) {
-      //No possible wins left on columns:
-      const isEachColumnMixed = columns.map(col => {
-        let xPresent = false;
-        let oPresent = false;
-        const count = col.reduce((total, marker) => {
-          if (marker !== '') {
-            if (marker === 'X') {
-              xPresent = true;
-            } else {
-              oPresent = true;
-            }
-            return ++total;
-          } else {
-            return total;
-          }
-        }, 0);
-        if (count >= 2 && xPresent && oPresent) {
-          return true;
-        } else {
-          return false;
-        }
-      });
-      const colsTied = isEachColumnMixed.reduce((priorColsAreMixed, colIsMixed) => {
-        if (priorColsAreMixed) {
-          if (colIsMixed) {
-            return true;
-          } else {
-            return false;
-          }
-        } else {
-          return false;
-        }
-      });
-      if (colsTied) {
-          model.gameCompleted = true;
-          view.showWinOrTie(null, true);
-      } else {
-        model.changeTurn();
-      }
+    }, 0);
+    console.log(totalSpotstotalSpotsUsed);
+    if (totalSpotsUsed === 9) {
+      model.gameCompleted = true;
+      view.showWinOrTie(null, true);
     } else {
       model.changeTurn();
     }
