@@ -33,6 +33,11 @@ const model = {
 
   gameCompleted: false,
 
+  score: {
+    X: 0,
+    O: 0
+  },
+
   changeNextFirstPlayer: (winner) => {
     //if winner is X or O
     if (winner === 'X') {
@@ -98,6 +103,7 @@ const model = {
         if (row[0] === row[1]) {
           if (row[1] === row[2]) {
             model.gameCompleted = true;
+            model.score[row[0]]++;
             model.changeNextFirstPlayer(row[0]);
             view.showWinOrTie(row[0], false);
           }
@@ -119,6 +125,7 @@ const model = {
         if (col[0] === col[1]) {
           if (col[1] === col[2]) {
             model.gameCompleted = true;
+            model.score[col[0]]++;
             model.changeNextFirstPlayer(col[0]);
             view.showWinOrTie(col[0], false);
           }
@@ -137,6 +144,7 @@ const model = {
     if (A1.length > 0) {
       if (A1 === B2 && B2 === C3) {
         model.gameCompleted = true;
+        model.score[A1]++;
         model.changeNextFirstPlayer(A1);
         return view.showWinOrTie(A1, false);
       }
@@ -148,6 +156,7 @@ const model = {
     if (A3.length > 0) {
       if (A3 === B2 && B2 === C1) {
         model.gameCompleted = true;
+        model.score[A3]++;
         model.changeNextFirstPlayer(A3);
         return view.showWinOrTie(A3, false);
       }
@@ -189,6 +198,8 @@ const model = {
 //VIEW
 const view = {
   turnTracker: document.getElementById('turn-tracker'),
+  XWins: document.getElementById('x-win-count'),
+  OWins: document.getElementById('o-win-count'),
 
   renderClick: (player, eventTarget) => {
     eventTarget.append(player);
@@ -203,6 +214,8 @@ const view = {
       view.turnTracker.innerHTML = `It's a Tie!`;
     } else {
       view.turnTracker.innerHTML = `Player ${winner} Has Won the Game!`;
+      view.XWins.innerHTML = model.score.X;
+      view.OWins.innerHTML = model.score.O;
     }
   },
 
