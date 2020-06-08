@@ -1,6 +1,5 @@
 //CONTROLLER
 const initialize = () => {
-
   const gameBoard = document.getElementById('game-container');
   gameBoard.addEventListener('click', event => {
     const positions = {
@@ -33,6 +32,24 @@ const model = {
   player: 'X',
 
   gameCompleted: false,
+
+  changeNextFirstPlayer: (winner) => {
+    //if winner is X or O
+    if (winner === 'X') {
+      model.player = 'O';
+
+    } else if (winner === 'O') {
+      model.player = 'X';
+
+    //if tied
+    } else {
+      if (model.player = 'X') {
+        model.player = 'O';
+      } else {
+        model.player = 'X';
+      }
+    }
+  },
 
   board: [
     ['','',''],
@@ -81,6 +98,7 @@ const model = {
         if (row[0] === row[1]) {
           if (row[1] === row[2]) {
             model.gameCompleted = true;
+            model.changeNextFirstPlayer(row[0]);
             view.showWinOrTie(row[0], false);
           }
         }
@@ -101,6 +119,7 @@ const model = {
         if (col[0] === col[1]) {
           if (col[1] === col[2]) {
             model.gameCompleted = true;
+            model.changeNextFirstPlayer(col[0]);
             view.showWinOrTie(col[0], false);
           }
         }
@@ -118,6 +137,7 @@ const model = {
     if (A1.length > 0) {
       if (A1 === B2 && B2 === C3) {
         model.gameCompleted = true;
+        model.changeNextFirstPlayer(A1);
         return view.showWinOrTie(A1, false);
       }
     }
@@ -128,6 +148,7 @@ const model = {
     if (A3.length > 0) {
       if (A3 === B2 && B2 === C1) {
         model.gameCompleted = true;
+        model.changeNextFirstPlayer(A3);
         return view.showWinOrTie(A3, false);
       }
     }
@@ -135,6 +156,7 @@ const model = {
     //if no spots left on board and win condition hasn't been met
     if (model.spotsUsed === 9) {
       model.gameCompleted = true;
+      model.changeNextFirstPlayer(null);
       view.showWinOrTie(null, true);
     } else {
       model.changeTurn();
@@ -157,7 +179,6 @@ const model = {
       ['','',''],
       ['','',''],
     ];
-    model.player = 'X';
     model.gameCompleted = false;
     model.spotsUsed = 0;
   }
@@ -191,6 +212,6 @@ const view = {
     cellElements.forEach(cell => {
       cell.innerHTML = '';
     });
-    view.changeDisplayedTurn('X');
+    view.changeDisplayedTurn(model.player);
   }
 };
