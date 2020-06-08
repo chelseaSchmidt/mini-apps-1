@@ -54,7 +54,7 @@ const model = {
 
   checkForWinOrTie: () => {
     //Winning combinations
-    //if a row has three of same char
+    //Row win:
     model.board.forEach(row => {
       let xSpots = 0;
       let oSpots = 0;
@@ -73,7 +73,32 @@ const model = {
         view.showWinOrTie('O');
       }
     });
-    //if a column has three of same char
+    //Column win:
+    const columns = [];
+    columns.push(model.board.map(row => row[0]));
+    columns.push(model.board.map(row => row[1]));
+    columns.push(model.board.map(row => row[2]));
+    columns.forEach(col => {
+      let xSpots = 0;
+      let oSpots = 0;
+      col.forEach(cell =>{
+        if (cell === 'X') {
+          xSpots++;
+        } else if (cell === 'O') {
+          oSpots++;
+        }
+      });
+      if (xSpots === 3) {
+        model.gameCompleted = true;
+        view.showWinOrTie('X');
+      } else if (oSpots === 3) {
+        model.gameCompleted = true;
+        view.showWinOrTie('O');
+      }
+    });
+
+
+    //Diagonals:
     //if A1, B2, and C3 have same non-empty char
     //if A3, B2, and C1 have same non-empty char
 
