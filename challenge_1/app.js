@@ -4,7 +4,8 @@ let cellElements = document.getElementsByClassName('board-cell');
 cellElements = [...cellElements];
 cellElements.forEach((cell) => {
   cell.addEventListener('click', (event) => {
-    event.target.append('X');
+    view.renderClick(model.player, event.target);
+    model.changeTurn();
   });
 });
   //on click, place an X or O in target cell in VIEW and MODEL
@@ -29,15 +30,20 @@ const model = {
 
   },
   changeTurn: () => {
-
+    if (model.player === 'X') {
+      model.player = 'O';
+    } else {
+      model.player = 'X';
+    }
   }
 };
 
 
 //VIEW
 const view = {
-  renderClick: (player) => {
-
+  renderClick: (player, eventTarget) => {
+    console.log('click!');
+    eventTarget.append('X');
   },
   changeDisplayedTurn: () => {
 
