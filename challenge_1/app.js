@@ -36,10 +36,12 @@ const model = {
     const row = model.rows[targetCell.id[0]];
     const column = model.columns[targetCell.id[1]];
     model.board[row][column] = player;
-    console.log(model.board);
+    view.renderClick(player, targetCell);
+    model.checkForWinOrTie();
   },
   checkForWinOrTie: () => {
-
+    //if game has not ended
+      model.changeTurn();
   },
   resetModel: () => {
 
@@ -60,10 +62,11 @@ const model = {
 const view = {
   renderClick: (player, eventTarget) => {
     console.log('click!');
-    eventTarget.append('X');
+    eventTarget.append(player);
   },
-  changeDisplayedTurn: (newTurn) => {
-
+  changeDisplayedTurn: (newPlayer) => {
+    const turnTracker = document.getElementById('turn-tracker');
+    turnTracker.innerHTML = `Player ${newPlayer}'s Turn`;
   },
   resetBoard: () => {
 
