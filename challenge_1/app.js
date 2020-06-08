@@ -39,7 +39,7 @@ const model = {
 
   spotsUsed: 0,
 
-  placeMarker: (player, targetCell) => {
+  placeMarker: (markerPlaced, targetCell) => {
     const row = model.rows[targetCell.id[1]];
     const column = model.columns[targetCell.id[0]];
     const position = model.board[row][column];
@@ -47,13 +47,13 @@ const model = {
     if (model.gameCompleted) {
       alert('The game has been completed! Please start a new game to continue.');
 
-    } else if (position === 'X' || position === 'O') {
+    } else if (position !== '') {
       alert('This spot has already been taken! Please try again.');
 
     } else {
-      model.board[row][column] = player;
+      model.board[row][column] = markerPlaced;
       model.spotsUsed++;
-      view.renderClick(player, targetCell);
+      view.renderClick(markerPlaced, targetCell);
       model.checkForWinOrTie();
     }
   },
