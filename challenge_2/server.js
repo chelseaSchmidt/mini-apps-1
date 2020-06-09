@@ -8,6 +8,7 @@ const path = require('path');
 const Promise = require('bluebird');
 const fs = require('fs');
 const writeFile = Promise.promisify(fs.writeFile);
+const appendFile = Promise.promisify(fs.appendFile);
 
 //middleware
 app.use(morgan('dev'));
@@ -25,7 +26,6 @@ app.post('/', (req, res) => {
   //also return form in response
   const dataIndex = req.body.indexOf('=') + 1;
   const formString = req.body.slice(dataIndex);
-  console.log(formString);
   let data;
 
   try {
@@ -36,6 +36,17 @@ app.post('/', (req, res) => {
     res.status(400);
     res.send('not JSON format');
   }
+
+  // writeFile(path.join(__dirname, 'converted.csv'), '')
+  //   .then(() => {
+  //     console.log('file ready');
+  //   })
+  //   .catch(err => {
+  //     console.log("file couldn't be emptied");
+  //     res.status(500);
+  //     console.log(err);
+  //     res.send(err);
+  //   });
 
   if (typeof data !== 'object' || !data) {
     writeFile(path.join(__dirname, 'converted.csv'), data)
@@ -50,15 +61,60 @@ app.post('/', (req, res) => {
       });
 
   } else if (Array.isArray(data)) {
-    res.status(418);
-    res.send('still working on arrays');
+    res.status(400);
+    res.send('please use JSON object notation');
 
   } else {
-    //get parent object keys
-    //for each key...
-      //
-    res.status(418);
-    res.send('still working on objects');
+    const columns = Object.keys(data);
+    let columnString = '';
+    columns.forEach((key) => {
+      if (key !== 'children') {
+        columnString += `${key},`;
+      }
+    });
+    columnString = columnString.slice(0, -1);
+    columnString += '\n';
+    const lines = [];
+    writeFile(path.join(__dirname, 'converted.csv'), columnString)
+      .then(() => {
+        writeLineToFile(data);
+
+        // data.children.forEach(child => {
+        //   writeLineToFile(child);
+        // });
+
+        Promise.all(lines)
+          .then(() => {
+            res.status(200);
+            res.sendFile(path.join(__dirname, 'converted.csv'));
+          })
+          .catch(err => {
+            res.status(400);
+            console.log(err);
+            res.send(err);
+          });
+
+      })
+      .catch(err => {
+        res.status(400);
+        console.log(err);
+        res.send(err);
+      });
+
+    function writeLineToFile(object) {
+      let line = '';
+      for (key in object) {
+        if (key !== 'children') {
+          line += `${object[key]},`
+        }
+      }
+      line.slice(0, -1);
+      line += '\n';
+      lines.push(appendFile(path.join(__dirname, 'converted.csv'), line));
+      object.children.forEach(child => {
+        writeLineToFile(child);
+      });
+    }
   }
 
 });
