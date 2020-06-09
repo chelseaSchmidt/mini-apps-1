@@ -5,6 +5,9 @@ const port = 3000;
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const path = require('path');
+const Promise = require('bluebird');
+const fs = require('fs');
+const writeFile = Promise.promisify(fs.writeFile);
 
 //middleware
 app.use(morgan('dev'));
@@ -20,30 +23,43 @@ app.post('/', (req, res) => {
   //do stuff with JSON data in req.data
   //return result in response
   //also return form in response
-  let dataIndex = req.body.indexOf('=') + 1;
-  let formString = req.body.slice(dataIndex);
+  const dataIndex = req.body.indexOf('=') + 1;
+  const formString = req.body.slice(dataIndex);
+  console.log(formString);
+  let data;
+
   try {
-    JSON.parse(formString);
-    res.status(418);
-    res.send('still working on this');
+    data = JSON.parse(formString);
+
   } catch (error) {
     console.log('nope');
     res.status(400);
     res.send('not JSON format');
   }
 
+  if (typeof data !== 'object' || !data) {
+    writeFile(path.join(__dirname, 'converted.csv'), data)
+      .then(() => {
+        res.status(200);
+        res.sendFile(path.join(__dirname, 'converted.csv'));
+      })
+      .catch(err => {
+        res.status(400);
+        console.log(err);
+        res.send(err);
+      });
 
-  // req.on('data', chunk => {
-  //   formString += chunk.toString();
-  // });
+  } else if (Array.isArray(data)) {
+    res.status(418);
+    res.send('still working on arrays');
 
-  // req.on('end', () => {
-  //   let dataIndex = formString.indexOf('=') + 1;
-  //   formString = formString.slice(dataIndex);
-  //   // console.log(formString);
-  //   res.status(418);
-  //   res.send('still working on this');
-  // });
+  } else {
+    //get parent object keys
+    //for each key...
+      //
+    res.status(418);
+    res.send('still working on objects');
+  }
 
 });
 
