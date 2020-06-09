@@ -5,9 +5,9 @@
   </head>
 
   <body>
-    <form id="JSON-data-form" action="" method="post">
-      <textarea name="submission"></textarea>
-      <button formenctype="text/plain">Submit JSON Data</button>
+    <form id="JSON-data-form" action="" method="post" enctype="multipart/form-data">
+      <input type="file" accept=".json" name="file">
+      <button>Submit JSON File</button>
     </form>
   </body>
 </html>

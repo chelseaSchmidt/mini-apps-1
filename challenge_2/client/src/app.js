@@ -1,12 +1,24 @@
-//The client app should be able to submit JSON data to the server, receive a
-//response containing a CSV-formatted result (the way this is done will vary
-//depending on where you are in the challenge).
+//refactor to a single page application by using jQuery/AJAX to submit your
+//JSON file to the server using AJAX. Note: a single page app means that once
+//the page loads, no user-generated actions on the page may cause the entire
+//page to reload. You will know the page is reloading if you see a change in
+//your URL. You must prevent this behavior from occurring.
 
-//Implement all the report generation logic on the server. Do not use any
-//external libraries (such as via npm). You may use jQuery on the client.
+//Lastly, add a link to download the most recently created CSV report. You can
+//choose to make this a server-based or client-based action.
 
-//Initially, submission of the JSON data (from the client to server) should be
-//done using an HTML form with a single textarea input field (for the entire
-//JSON text) and a submit button. When the user clicks submit, POST the form data
-//to the server. The form submission process should use the default browser
-//action/behavior. DO NOT use jQuery/AJAX functions in the submission process.
+//You are allowed to use jQuery to manipulate the DOM and handle any DOM events.
+//You may use jQuery/Ajax only when you get to the step in the basic requirements
+//that asks you to do so. For ease of development, be sure to use nodemon to watch
+//for changes in your project. Additionally, no CSS styling is necessary. Use the
+//browser's default styling for all elements on your page.
+
+//Use the coding best practices you learned previously to ensure a clear separation
+//of concerns with well-defined interfaces.
+
+//CONTROLLER
+//event listener for form submission
+
+
+//MODEL
+//function to send POST request

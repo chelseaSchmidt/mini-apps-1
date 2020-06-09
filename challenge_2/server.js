@@ -3,8 +3,13 @@ const app = express();
 const port = 3000;
 
 const morgan = require('morgan');
+
 const bodyParser = require('body-parser');
+const multer = require('multer');
+const upload = multer();
+
 const path = require('path');
+
 const Promise = require('bluebird');
 const fs = require('fs');
 const writeFile = Promise.promisify(fs.writeFile);
@@ -15,38 +20,22 @@ app.use(morgan('dev'));
 
 //static files
 app.use(express.static(path.join(__dirname, '/client/dist')));
-app.use(bodyParser.text());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 //routes
 
-app.post('/', (req, res) => {
-
-  //do stuff with JSON data in req.data
-  //return result in response
-  //also return form in response
-  const dataIndex = req.body.indexOf('=') + 1;
-  const formString = req.body.slice(dataIndex);
+app.post('/', upload.single('file'), (req, res) => {
+  const formString = req.file.buffer.toString();
   let data;
 
   try {
     data = JSON.parse(formString);
 
   } catch (error) {
-    console.log('nope');
     res.status(400);
     res.send('not JSON format');
   }
-
-  // writeFile(path.join(__dirname, 'converted.csv'), '')
-  //   .then(() => {
-  //     console.log('file ready');
-  //   })
-  //   .catch(err => {
-  //     console.log("file couldn't be emptied");
-  //     res.status(500);
-  //     console.log(err);
-  //     res.send(err);
-  //   });
 
   if (typeof data !== 'object' || !data) {
     writeFile(path.join(__dirname, 'converted.csv'), data)
@@ -54,11 +43,7 @@ app.post('/', (req, res) => {
         res.status(200);
         res.sendFile(path.join(__dirname, 'converted.csv'));
       })
-      .catch(err => {
-        res.status(400);
-        console.log(err);
-        res.send(err);
-      });
+      .catch(err => { res.sendStatus(500); });
 
   } else if (Array.isArray(data)) {
     res.status(400);
@@ -79,10 +64,6 @@ app.post('/', (req, res) => {
       .then(() => {
         writeLineToFile(data);
 
-        // data.children.forEach(child => {
-        //   writeLineToFile(child);
-        // });
-
         Promise.all(lines)
           .then(() => {
             res.status(200);
@@ -93,7 +74,6 @@ app.post('/', (req, res) => {
             console.log(err);
             res.send(err);
           });
-
       })
       .catch(err => {
         res.status(400);
