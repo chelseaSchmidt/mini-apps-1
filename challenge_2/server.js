@@ -19,7 +19,8 @@ const appendFile = Promise.promisify(fs.appendFile);
 app.use(morgan('dev'));
 
 //static files
-app.use(express.static(path.join(__dirname, '/client/dist')));
+app.use(express.static(path.join(__dirname, '/client')));
+console.log(path.join(__dirname, '/client'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
