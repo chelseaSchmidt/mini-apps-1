@@ -1,5 +1,19 @@
 //CONTROLLER
 const initialize = () => {
+  const xName = prompt("Please enter a name for Player X:");
+  const oName = prompt("Please enter a name for Player O:");
+  if (xName) {
+    if (xName.length > 0) {
+      view.playerNames.X = xName;
+    }
+  }
+  if (oName) {
+    if (oName.length > 0) {
+      view.playerNames.O = oName;
+    }
+  }
+  view.renderPlayerNames();
+
   const gameBoard = document.getElementById('game-container');
   gameBoard.addEventListener('click', event => {
     const positions = {
@@ -24,8 +38,6 @@ const initialize = () => {
     view.resetBoard();
   });
 }
-
-initialize();
 
 //MODEL
 const model = {
@@ -200,20 +212,34 @@ const view = {
   turnTracker: document.getElementById('turn-tracker'),
   XWins: document.getElementById('x-win-count'),
   OWins: document.getElementById('o-win-count'),
+  XName: document.getElementById('x-name'),
+  OName: document.getElementById('o-name'),
+  firstPlayerName: document.getElementById('first-player-name'),
+
+  playerNames: {
+    X: 'Player X',
+    O: 'Player O'
+  },
+
+  renderPlayerNames: () => {
+    view.XName.append(`X | ${view.playerNames.X}`);
+    view.OName.append(`O | ${view.playerNames.O}`);
+    view.firstPlayerName.append(view.playerNames.X);
+  },
 
   renderClick: (player, eventTarget) => {
     eventTarget.append(player);
   },
 
   changeDisplayedTurn: (newPlayer) => {
-    view.turnTracker.innerHTML = `Player ${newPlayer}'s Turn`;
+    view.turnTracker.innerHTML = `${view.playerNames[newPlayer]}'s turn to place an ${newPlayer}`;
   },
 
   showWinOrTie: (winner, wasTie) => {
     if (wasTie) {
-      view.turnTracker.innerHTML = `It's a Tie!`;
+      view.turnTracker.innerHTML = `It's a tie!`;
     } else {
-      view.turnTracker.innerHTML = `Player ${winner} Has Won the Game!`;
+      view.turnTracker.innerHTML = `${view.playerNames[winner]} won the game!`;
       view.XWins.innerHTML = model.score.X;
       view.OWins.innerHTML = model.score.O;
     }

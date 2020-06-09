@@ -10,10 +10,10 @@
   <body>
     <div id="header-container">
       <h1 class="header">Tic-Tac-Toe</h1>
-      <h2 class="header" id="turn-tracker">Player X's Turn</h2>
+      <h2 class="header" id="turn-tracker"><span id="first-player-name"></span>'s turn to place an X</h2>
       <div id="tally-container">
-        <span class="player-tally" id="x-tally-box">X's Wins: <span id="x-win-count">0</span></span>
-        <span class="player-tally" id="o-tally-box">O's Wins: <span id="o-win-count">0</span></span>
+        <span class="player-tally" id="x-tally-box"><span id='x-name'></span>'s Wins: <span id="x-win-count">0</span></span>
+        <span class="player-tally" id="o-tally-box"><span id='o-name'></span>'s Wins: <span id="o-win-count">0</span></span>
       </div>
       <button id="new-game">Start a New Game</button>
     </div>
@@ -39,6 +39,9 @@
 
     </div>
     <script src="app.js"></script>
+    <script>
+      initialize();
+    </script>
   </body>
 
 </html>
