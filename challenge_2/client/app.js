@@ -16,9 +16,13 @@
 //Use the coding best practices you learned previously to ensure a clear separation
 //of concerns with well-defined interfaces.
 
-//CONTROLLER
-//event listener for form submission
 
+$(document).ready(() => {
+  //CONTROLLER
+  //event listener for form submission
+  const $button = $('#submit-JSON');
+  console.log($button);
 
-//MODEL
-//function to send POST request
+  //MODEL
+  //function to send POST request
+});
