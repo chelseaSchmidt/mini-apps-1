@@ -14,14 +14,16 @@ module.exports.generateCSV = (req, res) => {
   const formString = req.file.buffer.toString();
   let data;
 
+  //handle errors if data not parseable
   try {
     data = JSON.parse(formString);
 
   } catch (error) {
     res.status(400);
-    res.send('not JSON format');
+    res.send('not JSON format, please fix');
   }
 
+  //allow JSON non-collections
   if (typeof data !== 'object' || !data) {
     writeFile(path.join(__dirname, 'converted.csv'), data)
       .then(() => {
@@ -30,36 +32,32 @@ module.exports.generateCSV = (req, res) => {
       })
       .catch(err => { res.sendStatus(500); });
 
+  //reject JSON arrays for now
   } else if (Array.isArray(data)) {
     res.status(400);
-    res.send('please use JSON object notation');
+    res.send('JSON arrays not implemented currently');
 
+  //accept objects with 'children' property
   } else {
+    //convert column headers first
     const columns = Object.keys(data);
-    let columnString = '';
+    let csvString = '';
     columns.forEach((key) => {
       if (key !== 'children') {
-        columnString += `${key},`;
+        csvString += `${key},`;
       }
     });
-    columnString = columnString.slice(0, -1);
-    columnString += '\n';
-    const lines = [];
-    writeFile(path.join(__dirname, 'converted.csv'), columnString)
-      .then(() => {
-        writeLineToFile(data);
+    csvString = csvString.slice(0, -1);
+    csvString += '\n';
+    addLines(data);
 
-        Promise.all(lines)
-          .then(() => {
-            res.status(200);
-            res.attachment(path.join(__dirname, 'converted.csv'));
-            res.sendFile(path.join(__dirname, 'converted.csv'));
-          })
-          .catch(err => {
-            res.status(400);
-            console.log(err);
-            res.send(err);
-          });
+    //next add each line
+    const lines = [];
+    writeFile(path.join(__dirname, 'converted.csv'), csvString)
+      .then(() => {
+        res.status(200);
+        res.attachment(path.join(__dirname, 'converted.csv'));
+        res.sendFile(path.join(__dirname, 'converted.csv'));
       })
       .catch(err => {
         res.status(400);
@@ -67,7 +65,7 @@ module.exports.generateCSV = (req, res) => {
         res.send(err);
       });
 
-    function writeLineToFile(object) {
+    function addLines(object) {
       let line = '';
       for (key in object) {
         if (key !== 'children') {
@@ -76,9 +74,10 @@ module.exports.generateCSV = (req, res) => {
       }
       line.slice(0, -1);
       line += '\n';
-      lines.push(appendFile(path.join(__dirname, 'converted.csv'), line));
+      csvString += line;
+      // lines.push(appendFile(path.join(__dirname, 'converted.csv'), line));
       object.children.forEach(child => {
-        writeLineToFile(child);
+        addLines(child);
       });
     }
   }
