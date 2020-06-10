@@ -85,27 +85,36 @@ const renderPages = (returnedHome) => {
   const checkoutButton = document.getElementById('checkout');
 
   checkoutButton.addEventListener('click', () => {
-    ReactDOM.render(<F1 />, document.getElementById('app'));
-    let nextButton = document.getElementById('next');
-
-    nextButton.addEventListener('click', () => {
-      ReactDOM.render(<F2 />, document.getElementById('app'));
-      nextButton = document.getElementById('next');
-
-      nextButton.addEventListener('click', () => {
-        ReactDOM.render(<F3 />, document.getElementById('app'));
-        nextButton = document.getElementById('next');
+    createNewUser((err, res) => {
+      if (err) {
+        console.log(err);
+      } else {
+        const userId = res.data.insertId;
+        updateUserAccountInfo(userId);
+        ReactDOM.render(<F1 />, document.getElementById('app'));
+        let nextButton = document.getElementById('next');
 
         nextButton.addEventListener('click', () => {
-          ReactDOM.render(<ConfirmationPage />, document.getElementById('app'));
-          const purchaseButton = document.getElementById('purchase');
+          ReactDOM.render(<F2 />, document.getElementById('app'));
+          nextButton = document.getElementById('next');
 
-          purchaseButton.addEventListener('click', () => {
-            renderPages(true);
+          nextButton.addEventListener('click', () => {
+            ReactDOM.render(<F3 />, document.getElementById('app'));
+            nextButton = document.getElementById('next');
+
+            nextButton.addEventListener('click', () => {
+              ReactDOM.render(<ConfirmationPage />, document.getElementById('app'));
+              const purchaseButton = document.getElementById('purchase');
+
+              purchaseButton.addEventListener('click', () => {
+                renderPages(true);
+              });
+            });
           });
         });
-      });
+      }
     });
+
   });
 
 };
@@ -114,28 +123,28 @@ const renderPages = (returnedHome) => {
 renderPages();
 
 //===========================HTTP requests==============================
-const createNewUser = () => {
+function createNewUser(callback) {
   axios.post('/users')
     .then(res => {
-      console.log(res);
+      callback(null, res);
     })
     .catch(err => {
-      console.log(err);
+      callback(err);
     });
 };
 
-const updateUserAccountInfo = (name, email, pw) => {
+function updateUserAccountInfo(id, name, email, pw) {
 
 };
 
-const updateUserShipping = (line1, line2, city, state, zip) => {
+function updateUserShipping(id, line1, line2, city, state, zip) {
 
 };
 
-const updateUserPayment = (ccn, exp, cvv, zip) => {
+function updateUserPayment(id, ccn, exp, cvv, zip) {
 
 };
 
-const getUserInfo = (name) => {
+function getUserInfo(id) {
 
 };

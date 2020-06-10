@@ -11,9 +11,9 @@ app.use(morgan('dev'));
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.post('/users', (req, res) => {
-  mysql.query('SELECT * FROM USERS', (err, results) => {
+  mysql.query('INSERT INTO users () VALUES ()', (err, results) => {
     if (err) {
-      console.log(error);
+      console.log(err);
       res.sendStatus(503);
     } else {
       res.status(201);
