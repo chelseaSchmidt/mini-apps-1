@@ -112,3 +112,30 @@ const renderPages = (returnedHome) => {
 
 //===========================Initialize=================================
 renderPages();
+
+//===========================HTTP requests==============================
+const createNewUser = () => {
+  axios.post('/users')
+    .then(res => {
+      console.log(res);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+const updateUserAccountInfo = (name, email, pw) => {
+
+};
+
+const updateUserShipping = (line1, line2, city, state, zip) => {
+
+};
+
+const updateUserPayment = (ccn, exp, cvv, zip) => {
+
+};
+
+const getUserInfo = (name) => {
+
+};
