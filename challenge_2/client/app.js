@@ -10,7 +10,6 @@ $(document).ready(() => {
   //AJAX request to server upon form submission
   const sendRequest = {
     postFile: (file) => {
-      const $downloadLink = $('#download');
       const formData = new FormData();
       formData.append('file', file);
       $.ajax({
@@ -21,7 +20,6 @@ $(document).ready(() => {
         contentType: false,
         success: (data) => {
           event.preventDefault();
-          console.log(data);
         },
         error: (error) => {
           event.preventDefault();
