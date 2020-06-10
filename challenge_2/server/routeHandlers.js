@@ -32,14 +32,14 @@ module.exports.generateCSV = (req, res) => {
       })
       .catch(err => { res.sendStatus(500); });
 
-  //reject JSON arrays for now
+  //reject JSON arrays
   } else if (Array.isArray(data)) {
     res.status(400);
     res.send('JSON arrays not implemented currently');
 
   //accept objects with 'children' property
   } else {
-    //convert column headers first
+
     const columns = Object.keys(data);
     let csvString = '';
     columns.forEach((key) => {
@@ -50,9 +50,8 @@ module.exports.generateCSV = (req, res) => {
     csvString = csvString.slice(0, -1);
     csvString += '\n';
     addLines(data);
+    csvString = csvString.slice(0, -1);
 
-    //next add each line
-    const lines = [];
     writeFile(path.join(__dirname, 'converted.csv'), csvString)
       .then(() => {
         res.status(200);
@@ -72,10 +71,9 @@ module.exports.generateCSV = (req, res) => {
           line += `${object[key]},`
         }
       }
-      line.slice(0, -1);
+      line = line.slice(0, -1);
       line += '\n';
       csvString += line;
-      // lines.push(appendFile(path.join(__dirname, 'converted.csv'), line));
       object.children.forEach(child => {
         addLines(child);
       });
