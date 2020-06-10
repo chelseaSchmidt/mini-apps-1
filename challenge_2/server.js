@@ -20,9 +20,6 @@ app.use(morgan('dev'));
 
 //static files
 app.use(express.static(path.join(__dirname, '/client')));
-console.log(path.join(__dirname, '/client'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 //routes
 
@@ -68,6 +65,7 @@ app.post('/', upload.single('file'), (req, res) => {
         Promise.all(lines)
           .then(() => {
             res.status(200);
+            res.type('.csv');
             res.sendFile(path.join(__dirname, 'converted.csv'));
           })
           .catch(err => {

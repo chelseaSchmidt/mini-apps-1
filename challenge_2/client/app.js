@@ -1,9 +1,3 @@
-//refactor to a single page application by using jQuery/AJAX to submit your
-//JSON file to the server using AJAX. Note: a single page app means that once
-//the page loads, no user-generated actions on the page may cause the entire
-//page to reload. You will know the page is reloading if you see a change in
-//your URL. You must prevent this behavior from occurring.
-
 //Lastly, add a link to download the most recently created CSV report. You can
 //choose to make this a server-based or client-based action.
 
@@ -20,9 +14,32 @@
 $(document).ready(() => {
   //CONTROLLER
   //event listener for form submission
-  const $button = $('#submit-JSON');
-  console.log($button);
+  const $form = $('#JSON-data-form');
+  $form.on('submit', event => {
+    event.preventDefault();
+    const file = event.target[0].files[0];
+    sendRequest.postFile(file);
+  });
 
-  //MODEL
-  //function to send POST request
+  const sendRequest = {
+    postFile: (file) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      $.ajax({
+        url: 'http://127.0.0.1:3000',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: (data) => {
+          event.preventDefault();
+          console.log(data);
+        },
+        error: (error) => {
+          event.preventDefault();
+          console.log('error');
+        }
+      });
+    }
+  };
 });
