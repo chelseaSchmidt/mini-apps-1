@@ -1,29 +1,16 @@
-const express = require('express');
-const app = express();
-const port = 3000;
-
-const morgan = require('morgan');
-
-const bodyParser = require('body-parser');
-const multer = require('multer');
-const upload = multer();
-
 const path = require('path');
-
 const Promise = require('bluebird');
 const fs = require('fs');
 const writeFile = Promise.promisify(fs.writeFile);
 const appendFile = Promise.promisify(fs.appendFile);
 
-//middleware
-app.use(morgan('dev'));
+module.exports.getRecentFile = (req, res) => {
+  res.status(200);
+  res.attachment(path.join(__dirname, 'converted.csv'));
+  res.sendFile(path.join(__dirname, 'converted.csv'));
+};
 
-//static files
-app.use(express.static(path.join(__dirname, '/client')));
-
-//routes
-
-app.post('/', upload.single('file'), (req, res) => {
+module.exports.generateCSV = (req, res) => {
   const formString = req.file.buffer.toString();
   let data;
 
@@ -65,7 +52,7 @@ app.post('/', upload.single('file'), (req, res) => {
         Promise.all(lines)
           .then(() => {
             res.status(200);
-            res.type('.csv');
+            res.attachment(path.join(__dirname, 'converted.csv'));
             res.sendFile(path.join(__dirname, 'converted.csv'));
           })
           .catch(err => {
@@ -95,10 +82,4 @@ app.post('/', upload.single('file'), (req, res) => {
       });
     }
   }
-
-});
-
-//listen
-app.listen(port, () => {
-  console.log('server is listening');
-});
+};
