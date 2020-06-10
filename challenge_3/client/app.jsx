@@ -78,7 +78,7 @@ const ConfirmationPage = () => {
 };
 
 //===========================Rendering==================================
-const renderPages = (returnedHome) => {
+const renderHome = (returnedHome) => {
 
   ReactDOM.render(<HomePage returnedHome={returnedHome}/>, document.getElementById('app'));
 
@@ -91,27 +91,7 @@ const renderPages = (returnedHome) => {
       } else {
         const userId = res.data.insertId;
         updateUserAccountInfo(userId);
-        ReactDOM.render(<F1 />, document.getElementById('app'));
-        let nextButton = document.getElementById('next');
-
-        nextButton.addEventListener('click', () => {
-          ReactDOM.render(<F2 />, document.getElementById('app'));
-          nextButton = document.getElementById('next');
-
-          nextButton.addEventListener('click', () => {
-            ReactDOM.render(<F3 />, document.getElementById('app'));
-            nextButton = document.getElementById('next');
-
-            nextButton.addEventListener('click', () => {
-              ReactDOM.render(<ConfirmationPage />, document.getElementById('app'));
-              const purchaseButton = document.getElementById('purchase');
-
-              purchaseButton.addEventListener('click', () => {
-                renderPages(true);
-              });
-            });
-          });
-        });
+        renderF1();
       }
     });
 
@@ -119,8 +99,34 @@ const renderPages = (returnedHome) => {
 
 };
 
+const renderF1 = () => {
+  ReactDOM.render(<F1 />, document.getElementById('app'));
+  const nextButton = document.getElementById('next');
+  nextButton.addEventListener('click', renderF2);
+};
+
+const renderF2 = () => {
+  ReactDOM.render(<F2 />, document.getElementById('app'));
+  const nextButton = document.getElementById('next');
+  nextButton.addEventListener('click', renderF3);
+};
+
+const renderF3 = () => {
+  ReactDOM.render(<F3 />, document.getElementById('app'));
+  const nextButton = document.getElementById('next');
+  nextButton.addEventListener('click', renderConfirm);
+};
+
+const renderConfirm = () => {
+  ReactDOM.render(<ConfirmationPage />, document.getElementById('app'));
+  const purchaseButton = document.getElementById('purchase');
+  purchaseButton.addEventListener('click', () => {
+    renderHome(true);
+  });
+};
+
 //===========================Initialize=================================
-renderPages();
+renderHome();
 
 //===========================HTTP requests==============================
 function createNewUser(callback) {
