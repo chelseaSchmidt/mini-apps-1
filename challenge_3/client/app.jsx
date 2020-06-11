@@ -29,6 +29,7 @@ const HomePage = (props) => {
   );
 };
 
+//refactor this to use state to re-render F1 - F3
 class F1 extends React.Component {
   constructor(props) {
     super(props);
@@ -42,24 +43,17 @@ class F1 extends React.Component {
 
   handleChange(event) {
     const value = event.target.value;
-    if (event.target.name === 'name') {
-      this.state.name = value;
-    } else if (event.target.name === 'email') {
-      this.state.email = value;
-    } else if (event.target.name === 'password') {
-      this.state.password = value;
-    }
+    const formName = event.target.name;
+    this.state[formName] = value;
     event.preventDefault();
   }
 
   handleSubmit(event) {
     event.preventDefault();
+    console.log(this.state);
     updateUserInfo(this.state, (err, res) => {
-      if (err) {
-        console.error(err);
-      } else {
-        renderF2(this.state.id);
-      }
+      if (err) { console.error(err); }
+      else { renderF2(this.state.id); }
     });
   }
 
