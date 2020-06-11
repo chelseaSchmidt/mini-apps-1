@@ -3,7 +3,7 @@ const Input = (props) => {
   return (
     <div>
       <label>{`${props.label}:`}
-        <input type="text" name={props.name}></input>
+        <input type="text" name={props.name} onChange={props.handleChange}></input>
       </label>
     </div>
   );
@@ -32,20 +32,27 @@ const HomePage = (props) => {
 class F1 extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: null,
-      email: null,
-      password: null
-    };
+    this.id = props.id;
+    this.name = null;
+    this.email = null;
+    this.password = null;
   }
 
   handleChange(event) {
-
+    const value = event.target.value;
+    if (event.target.name === 'name') {
+      this.name = value;
+    } else if (event.target.name === 'email') {
+      this.email = value;
+    } else if (event.target.name === 'password') {
+      this.password = value;
+    }
+    event.preventDefault();
   }
 
   handleSubmit(event) {
-    console.dir(event.target);
     event.preventDefault();
+    updateUserAccountInfo(this.id, this.name, this.email, this.password);
     renderF2();
   }
 
@@ -53,10 +60,10 @@ class F1 extends React.Component {
     return (
       <div>
         <p>Please create an account:</p>
-        <form onSubmit={this.handleSubmit}>
-          <Input label="Name" name="name" onChange={this.handleChange} />
-          <Input label="Email" name="email" onChange={this.handleChange} />
-          <Input label="Password" name="password" onChange={this.handleChange} />
+        <form onSubmit={this.handleSubmit.bind(this)}>
+          <Input label="Name" name="name" handleChange={this.handleChange.bind(this)} />
+          <Input label="Email" name="email" handleChange={this.handleChange.bind(this)} />
+          <Input label="Password" name="password" handleChange={this.handleChange.bind(this)} />
           <Button message="Next" id="next" />
         </form>
       </div>
@@ -118,9 +125,7 @@ const renderHome = (returnedHome) => {
 };
 
 const renderF1 = (id) => {
-  ReactDOM.render(<F1 />, document.getElementById('app'));
-  // const nextButton = document.getElementById('next');
-  // nextButton.addEventListener('click', renderF2);
+  ReactDOM.render(<F1 id={id}/>, document.getElementById('app'));
 };
 
 const renderF2 = () => {
@@ -158,7 +163,7 @@ function createNewUser(callback) {
 };
 
 function updateUserAccountInfo(id, name, email, pw) {
-
+  console.log(id, name, email, pw);
 };
 
 function updateUserShipping(id, line1, line2, city, state, zip) {
