@@ -10,9 +10,9 @@ const Row = (props) => {
   });
 
   return (
-    <div class="row" id={props.id}>
+    <div className="row" id={props.id}>
       {cellIds.map((cell) => {
-        return <Cell id={cell}/>
+        return <Cell id={cell} class="cell" key={cell}/>
       })}
     </div>
   );

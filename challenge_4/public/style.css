@@ -1,10 +1,35 @@
-#row-container {
+/*===================
+Board Container
+===================*/
+#board-container {
   display: flex;
   flex-direction: column;
   border: solid black 1px;
   align-items: center;
 }
 
+/*===================
+Disc Bar
+===================*/
+#bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+}
+
+.disc-button {
+  margin: 1px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 50px;
+  width: 50px;
+  height: 50px;
+}
+
+/*===================
+Board Rows & Cells
+===================*/
 .row {
   display: flex;
   flex-direction: row;

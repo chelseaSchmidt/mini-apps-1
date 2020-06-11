@@ -2,7 +2,7 @@ import React from 'react';
 
 const Cell = (props) => {
   return (
-    <div class="cell" id={props.id}>*</div>
+    <div className={props.class} id={props.id}>*</div>
   );
 };
 
