@@ -29,16 +29,39 @@ const HomePage = (props) => {
   );
 };
 
-const F1 = () => {
-  return (
-    <div>
-      <p>Please create an account:</p>
-      <Input label="Name" name="name" />
-      <Input label="Email" name="email" />
-      <Input label="Password" name="password" />
-      <Button message="Next" id="next" />
-    </div>
-  );
+class F1 extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: null,
+      email: null,
+      password: null
+    };
+  }
+
+  handleChange(event) {
+
+  }
+
+  handleSubmit(event) {
+    console.dir(event.target);
+    event.preventDefault();
+    renderF2();
+  }
+
+  render() {
+    return (
+      <div>
+        <p>Please create an account:</p>
+        <form onSubmit={this.handleSubmit}>
+          <Input label="Name" name="name" onChange={this.handleChange} />
+          <Input label="Email" name="email" onChange={this.handleChange} />
+          <Input label="Password" name="password" onChange={this.handleChange} />
+          <Button message="Next" id="next" />
+        </form>
+      </div>
+    );
+  }
 };
 
 const F2 = () => {
@@ -79,9 +102,7 @@ const ConfirmationPage = () => {
 
 //===========================Rendering==================================
 const renderHome = (returnedHome) => {
-
   ReactDOM.render(<HomePage returnedHome={returnedHome}/>, document.getElementById('app'));
-
   const checkoutButton = document.getElementById('checkout');
 
   checkoutButton.addEventListener('click', () => {
@@ -90,19 +111,16 @@ const renderHome = (returnedHome) => {
         console.log(err);
       } else {
         const userId = res.data.insertId;
-        updateUserAccountInfo(userId);
-        renderF1();
+        renderF1(userId);
       }
     });
-
   });
-
 };
 
-const renderF1 = () => {
+const renderF1 = (id) => {
   ReactDOM.render(<F1 />, document.getElementById('app'));
-  const nextButton = document.getElementById('next');
-  nextButton.addEventListener('click', renderF2);
+  // const nextButton = document.getElementById('next');
+  // nextButton.addEventListener('click', renderF2);
 };
 
 const renderF2 = () => {
