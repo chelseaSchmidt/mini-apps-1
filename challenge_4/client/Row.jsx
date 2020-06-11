@@ -11,8 +11,11 @@ const Row = (props) => {
 
   return (
     <div className="row" id={props.id}>
-      {cellIds.map((cell) => {
-        return <Cell id={cell} class="cell" key={cell}/>
+      {cellIds.map((cell, i) => {
+        if (props.rowValues[i] === 1) {
+          return <Cell id={cell} class="filled-cell" key={cell}/>;
+        }
+        return <Cell id={cell} class="empty-cell" key={cell}/>;
       })}
     </div>
   );
