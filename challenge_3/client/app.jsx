@@ -32,28 +32,35 @@ const HomePage = (props) => {
 class F1 extends React.Component {
   constructor(props) {
     super(props);
-    this.id = props.id;
-    this.name = null;
-    this.email = null;
-    this.password = null;
+    this.state = {
+      id: props.id,
+      name: null,
+      email: null,
+      password: null
+    }
   }
 
   handleChange(event) {
     const value = event.target.value;
     if (event.target.name === 'name') {
-      this.name = value;
+      this.state.name = value;
     } else if (event.target.name === 'email') {
-      this.email = value;
+      this.state.email = value;
     } else if (event.target.name === 'password') {
-      this.password = value;
+      this.state.password = value;
     }
     event.preventDefault();
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    updateUserAccountInfo(this.id, this.name, this.email, this.password);
-    renderF2();
+    updateUserInfo(this.state, (err, res) => {
+      if (err) {
+        console.error(err);
+      } else {
+        renderF2(this.state.id);
+      }
+    });
   }
 
   render() {
@@ -162,16 +169,14 @@ function createNewUser(callback) {
     });
 };
 
-function updateUserAccountInfo(id, name, email, pw) {
-  console.log(id, name, email, pw);
-};
-
-function updateUserShipping(id, line1, line2, city, state, zip) {
-
-};
-
-function updateUserPayment(id, ccn, exp, cvv, zip) {
-
+function updateUserInfo(data, callback) {
+  axios.put(`/users/${data.id}`)
+    .then(res => {
+      callback(null, res);
+    })
+    .catch(err => {
+      callback(err);
+    });
 };
 
 function getUserInfo(id) {

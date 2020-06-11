@@ -8,6 +8,7 @@ const app = express();
 const port = 3000;
 
 app.use(morgan('dev'));
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, '../public')));
 
 app.post('/users', (req, res) => {
@@ -20,6 +21,11 @@ app.post('/users', (req, res) => {
       res.send(results);
     }
   });
+});
+
+app.put('/users/:userId', (req, res) => {
+  console.log(req.params);
+  res.send(418);
 });
 
 app.listen(port, () => {
