@@ -32,7 +32,7 @@ class Game extends React.Component {
       }
       for (let row = 5; row >= 0; row--) {
         if (board[row][col] === 0) {
-          board[row][col] = 1;
+          board[row][col] = this.state.player;
           this.setState({
             board: board,
             player: nextPlayer
@@ -49,7 +49,7 @@ class Game extends React.Component {
         <Player player={this.state.player}/>
         <Bar dropPiece={this.dropPiece.bind(this)}/>
         {['R0','R1','R2','R3','R4','R5'].map((row) => {
-          return <Row id={row} key={row} rowValues={this.state.board[row.slice(1)]}/>
+          return <Row id={row} key={row} rowValues={this.state.board[row.slice(1)]} player={this.state.player}/>
         })}
       </div>
     );

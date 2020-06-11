@@ -31,27 +31,37 @@ Board Rows & Cells
 .row {
   display: flex;
   flex-direction: row;
-  border: solid black 1px;
   justify-content: center;
 }
 
 .empty-cell {
-  border: solid black 1px;
   text-align: center;
 }
 
-.filled-cell {
-  border: solid black 1px;
+.red-cell {
   text-align: center;
-  background-color: black;
+  background-color: red;
+}
+
+.yellow-cell {
+  text-align: center;
+  background-color: rgba(255, 255, 0, 0.651);
 }
 
 /*===================
 Cell Sizing
 ===================*/
 
-.empty-cell, .filled-cell, .disc-button {
+.empty-cell, .red-cell, .yellow-cell, .disc-button {
   line-height: 75px;
   width: 75px;
   height: 75px;
+}
+
+/*===================
+Grid color
+===================*/
+
+.empty-cell, .red-cell, .yellow-cell, .row {
+  border: solid rgb(0, 68, 255) 1px;
 }

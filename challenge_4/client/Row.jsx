@@ -13,7 +13,10 @@ const Row = (props) => {
     <div className="row" id={props.id}>
       {cellIds.map((cell, i) => {
         if (props.rowValues[i] === 1) {
-          return <Cell id={cell} class="filled-cell" key={cell}/>;
+          return <Cell id={cell} class="red-cell" key={cell}/>;
+        }
+        if (props.rowValues[i] === 2) {
+          return <Cell id={cell} class="yellow-cell" key={cell}/>;
         }
         return <Cell id={cell} class="empty-cell" key={cell}/>;
       })}
