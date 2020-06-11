@@ -1,3 +1,21 @@
-#app {
-  color: red;
+#row-container {
+  display: flex;
+  flex-direction: column;
+  border: solid black 1px;
+  align-items: center;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  border: solid black 1px;
+  justify-content: center;
+}
+
+.cell {
+  border: solid black 1px;
+  text-align: center;
+  line-height: 50px;
+  width: 50px;
+  height: 50px;
 }
