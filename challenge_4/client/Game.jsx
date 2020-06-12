@@ -95,6 +95,7 @@ class Game extends React.Component {
     if (this.checkForTie(board)) {
       return 'tie';
     }
+    return false;
   }
 
   checkForRowOrColWin(rowOrCol) {
@@ -122,6 +123,7 @@ class Game extends React.Component {
         return true;
       }
     }
+    return false;
   }
 
   checkForMajorDiagonalWin() {
@@ -138,10 +140,13 @@ class Game extends React.Component {
     const openSpots = board.reduce((totalCount, row) => {
       return totalCount + row.reduce((subCount, piece) => {
         if (piece === 0) {
-          return ++subCount;
+          return subCount + 1;
+        } else {
+          return subCount;
         }
-      });
-    });
+      }, 0);
+    }, 0);
+    console.log(openSpots);
     return openSpots === 0;
   }
 
