@@ -70,7 +70,7 @@ class Game extends React.Component {
 
     let winFound = false;
     board.forEach(row => {
-      if (this.checkForRowOrColWin(row)) {
+      if (this.checkForWin(row)) {
         winFound = true;
       }
     });
@@ -82,40 +82,37 @@ class Game extends React.Component {
       let column = board.map(row => {
         return row[colidx];
       });
-      if (this.checkForRowOrColWin(column)) {
+      if (this.checkForWin(column)) {
         winFound = true;
       }
     }
     if (winFound) {
       return true;
     }
-    //Diagonals
+    //Diagonals - define diagonals
+    //map each row to it's diagonal index
+    //run this through checkForWin function
 
-    //at end, pass full board into checkForTie
     if (this.checkForTie(board)) {
       return 'tie';
     }
     return false;
   }
 
-  checkForRowOrColWin(rowOrCol) {
-    const scores = rowOrCol.reduce((counts, piece, i) => {
-
+  checkForWin(line) {
+    const scores = line.reduce((counts, piece, i) => {
       let interimScores = Object.values(counts);
-      let lastPiece = rowOrCol[i-1];
+      let lastPiece = line[i-1];
 
       if (interimScores.indexOf(4) > -1) {
         return counts;
-
       } else if (lastPiece === piece) {
         counts[piece]++;
-
       } else {
         counts = {0: 0, 1: 0, 2: 0};
         counts[piece]++;
       }
       return counts;
-
     }, {0: 0, 1: 0, 2: 0});
 
     for (let player in scores) {
@@ -126,17 +123,7 @@ class Game extends React.Component {
     return false;
   }
 
-  checkForMajorDiagonalWin() {
-
-  }
-
-  checkForMinorDiagonalWin() {
-
-  }
-
   checkForTie(board) {
-    //reduce board to object of 1, 2, and 0 counts
-    //if 0 counts is 0, return true
     const openSpots = board.reduce((totalCount, row) => {
       return totalCount + row.reduce((subCount, piece) => {
         if (piece === 0) {
