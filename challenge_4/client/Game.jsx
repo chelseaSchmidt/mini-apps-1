@@ -42,18 +42,15 @@ class Game extends React.Component {
         if (board[row][col] === 0) {
           board[row][col] = this.state.player;
 
-          const status = this.checkForWinOrTie();
+          const status = this.checkForWinOrTie(board);
           let gameCompletedStatus = false;
           let winningPlayer = null;
 
-          if (status === 1) {
+          if (status === 'tie') {
             gameCompletedStatus = true;
-            winningPlayer = 1;
-          } else if (status === 2) {
+          } else if (status) {
             gameCompletedStatus = true;
-            winningPlayer = 2;
-          } else if (status === 'tie') {
-            gameCompletedStatus = true;
+            winningPlayer = this.state.player;
           }
 
           this.setState({
@@ -70,10 +67,30 @@ class Game extends React.Component {
   }
 
   checkForWinOrTie(board) {
-    //call all functions below; return false, winning player, or tie
-    //pass each row into checkForRowOrColWin
-    //for each index, map all rows to a single column, pass into checkForRowOrColWin
-    //can I do this for diagonals?
+
+    let winFound = false;
+    board.forEach(row => {
+      if (this.checkForRowOrColWin(row)) {
+        winFound = true;
+      }
+    });
+    if (winFound) {
+      return true;
+    }
+
+    for (let colidx = 0; colidx < 6; colidx++) {
+      let column = board.map(row => {
+        return row[colidx];
+      });
+      if (this.checkForRowOrColWin(column)) {
+        winFound = true;
+      }
+    }
+    if (winFound) {
+      return true;
+    }
+    //Diagonals
+
     //at end, pass full board into checkForTie
     if (this.checkForTie(board)) {
       return 'tie';
@@ -81,7 +98,15 @@ class Game extends React.Component {
   }
 
   checkForRowOrColWin(rowOrCol) {
-
+    const scores = rowOrCol.reduce((counts, piece) => {
+      counts[piece]++;
+      return counts;
+    }, {0: 0, 1: 0, 2: 0});
+    for (let player in scores) {
+      if (scores[player] === 4 && player !== '0') {
+        return true;
+      }
+    }
   }
 
   checkForMajorDiagonalWin() {
