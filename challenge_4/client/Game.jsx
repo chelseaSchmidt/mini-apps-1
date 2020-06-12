@@ -146,7 +146,6 @@ class Game extends React.Component {
         }
       }, 0);
     }, 0);
-    console.log(openSpots);
     return openSpots === 0;
   }
 
