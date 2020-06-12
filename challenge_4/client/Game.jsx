@@ -98,10 +98,25 @@ class Game extends React.Component {
   }
 
   checkForRowOrColWin(rowOrCol) {
-    const scores = rowOrCol.reduce((counts, piece) => {
-      counts[piece]++;
+    const scores = rowOrCol.reduce((counts, piece, i) => {
+
+      let interimScores = Object.values(counts);
+      let lastPiece = rowOrCol[i-1];
+
+      if (interimScores.indexOf(4) > -1) {
+        return counts;
+
+      } else if (lastPiece === piece) {
+        counts[piece]++;
+
+      } else {
+        counts = {0: 0, 1: 0, 2: 0};
+        counts[piece]++;
+      }
       return counts;
+
     }, {0: 0, 1: 0, 2: 0});
+
     for (let player in scores) {
       if (scores[player] === 4 && player !== '0') {
         return true;
@@ -120,6 +135,14 @@ class Game extends React.Component {
   checkForTie(board) {
     //reduce board to object of 1, 2, and 0 counts
     //if 0 counts is 0, return true
+    const openSpots = board.reduce((totalCount, row) => {
+      return totalCount + row.reduce((subCount, piece) => {
+        if (piece === 0) {
+          return ++subCount;
+        }
+      });
+    });
+    return openSpots === 0;
   }
 
   render() {
