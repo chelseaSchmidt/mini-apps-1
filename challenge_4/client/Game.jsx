@@ -89,9 +89,37 @@ class Game extends React.Component {
     if (winFound) {
       return true;
     }
-    //Diagonals - define diagonals
-    //map each row to it's diagonal index
-    //run this through checkForWin function
+    const majorDiagonalStarts = [
+      [0, 0],
+      [0, 1],
+      [0, 2],
+      [0, 3],
+      [1, 0],
+      [2, 0]
+    ];
+    const minorDiagonalStarts = [
+      [0, 6],
+      [0, 5],
+      [0, 4],
+      [0, 3],
+      [1, 6],
+      [2, 6]
+    ];
+    //for each majorDiagonalStart...
+      //generate an array of diagonal coordinates
+      //map each row of board to it's diagonal coordinate
+      //if checking for a win on this diagonal returns true
+        //change winFound to true
+    //if winFound
+      //return true
+
+    //for each minorDiagonalStart...
+      //generate an array of diagonal coordinates
+      //map each row of board to it's diagonal coordinate
+      //if checking for a win on this diagonal returns true
+        //change winFound to true
+    //if winFound
+      //return true
 
     if (this.checkForTie(board)) {
       return 'tie';
@@ -134,6 +162,32 @@ class Game extends React.Component {
       }, 0);
     }, 0);
     return openSpots === 0;
+  }
+
+  generateMajorDiagonals(start) {
+    let diagonals = [];
+    diagonals.push(start);
+    let nextRow = start[0] + 1;
+    let nextCol = start[1] + 1;
+    while (nextRow <= 5 && nextCol <= 6) {
+      diagonals.push([nextRow, nextCol]);
+      nextRow++;
+      nextCol++;
+    }
+    return diagonals;
+  }
+
+  generateMinorDiagonals(start) {
+    let diagonals = [];
+    diagonals.push(start);
+    let nextRow = start[0] + 1;
+    let nextCol = start[1] - 1;
+    while (nextRow <= 5 && nextCol >= 0) {
+      diagonals.push([nextRow, nextCol]);
+      nextRow++;
+      nextCol--;
+    }
+    return diagonals;
   }
 
   render() {
