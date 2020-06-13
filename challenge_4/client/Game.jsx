@@ -105,21 +105,38 @@ class Game extends React.Component {
       [1, 6],
       [2, 6]
     ];
-    //for each majorDiagonalStart...
-      //generate an array of diagonal coordinates
-      //map each row of board to it's diagonal coordinate
-      //if checking for a win on this diagonal returns true
-        //change winFound to true
-    //if winFound
-      //return true
 
-    //for each minorDiagonalStart...
-      //generate an array of diagonal coordinates
-      //map each row of board to it's diagonal coordinate
-      //if checking for a win on this diagonal returns true
-        //change winFound to true
-    //if winFound
-      //return true
+    majorDiagonalStarts.forEach(start => {
+      const coordinates = this.generateMajorDiagonals(start);
+      const diagonal = [];
+      coordinates.forEach(coordinate => {
+        const row = coordinate[0];
+        const col = coordinate[1];
+        diagonal.push(board[row][col]);
+      });
+      if (this.checkForWin(diagonal)) {
+        winFound = true;
+      }
+    });
+    if (winFound) {
+      return true;
+    }
+
+    minorDiagonalStarts.forEach(start => {
+      const coordinates = this.generateMinorDiagonals(start);
+      const diagonal = [];
+      coordinates.forEach(coordinate => {
+        const row = coordinate[0];
+        const col = coordinate[1];
+        diagonal.push(board[row][col]);
+      });
+      if (this.checkForWin(diagonal)) {
+        winFound = true;
+      }
+    });
+    if (winFound) {
+      return true;
+    }
 
     if (this.checkForTie(board)) {
       return 'tie';
