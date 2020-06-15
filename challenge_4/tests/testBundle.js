@@ -81,7 +81,7 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./client/src/app.jsx");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./client/test/test.jsx");
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -158,15 +158,15 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var reac
 
 /***/ }),
 
-/***/ "./client/src/app.jsx":
-/*!****************************!*\
-  !*** ./client/src/app.jsx ***!
-  \****************************/
-/*! exports provided: default */
+/***/ "./client/test/test.jsx":
+/*!******************************!*\
+  !*** ./client/test/test.jsx ***!
+  \******************************/
+/*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ \"./node_modules/react-dom/index.js\");\n/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var _Game_jsx__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Game.jsx */ \"./client/src/Game.jsx\");\n\n\n\nvar gameRef = react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Game_jsx__WEBPACK_IMPORTED_MODULE_2__[\"default\"], null), document.getElementById('app'));\nvar checkForWinOrTie = gameRef.checkForWinOrTie;\n/* harmony default export */ __webpack_exports__[\"default\"] = (checkForWinOrTie);\n\n//# sourceURL=webpack:///./client/src/app.jsx?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _src_Game_jsx__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../src/Game.jsx */ \"./client/src/Game.jsx\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ \"./node_modules/react/index.js\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-dom */ \"./node_modules/react-dom/index.js\");\n/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_2__);\n\n\n\ndescribe('End-of-game detection logic', function () {\n  it('should detect row wins', function () {\n    var game = react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_src_Game_jsx__WEBPACK_IMPORTED_MODULE_0__[\"default\"], null), document.getElementById('test-container'));\n    var board = [[0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [1, 1, 1, 1, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]];\n    expect(game.checkForWinOrTie(board)).to.be[\"true\"];\n  });\n  it('should detect column wins', function () {\n    var game = react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_src_Game_jsx__WEBPACK_IMPORTED_MODULE_0__[\"default\"], null), document.getElementById('test-container'));\n    var board = [[2, 0, 0, 0, 0, 0, 0], [2, 0, 0, 0, 0, 0, 0], [2, 0, 0, 0, 0, 0, 0], [2, 1, 1, 1, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0]];\n    expect(game.checkForWinOrTie(board)).to.be[\"true\"];\n  });\n  it('should detect diagonal wins', function () {\n    var game = react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_src_Game_jsx__WEBPACK_IMPORTED_MODULE_0__[\"default\"], null), document.getElementById('test-container'));\n    var board = [[2, 0, 0, 0, 0, 0, 0], [2, 1, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0], [2, 1, 0, 1, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 0]];\n    expect(game.checkForWinOrTie(board)).to.be[\"true\"];\n  });\n  it('should detect a tie', function () {\n    var game = react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_src_Game_jsx__WEBPACK_IMPORTED_MODULE_0__[\"default\"], null), document.getElementById('test-container'));\n    var board = [[2, 2, 1, 1, 2, 2, 1], [1, 1, 2, 2, 1, 1, 1], [2, 2, 2, 1, 2, 2, 1], [1, 1, 2, 1, 2, 1, 2], [1, 1, 1, 2, 1, 2, 1], [2, 1, 1, 2, 1, 2, 1]];\n    expect(game.checkForWinOrTie(board)).to.equal('tie');\n  });\n  it('should not detect a win when there isn\\'t one', function () {\n    var game = react_dom__WEBPACK_IMPORTED_MODULE_2___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement(_src_Game_jsx__WEBPACK_IMPORTED_MODULE_0__[\"default\"], null), document.getElementById('test-container'));\n    var board = [[2, 0, 0, 0, 0, 0, 0], [2, 1, 0, 0, 0, 0, 0], [0, 0, 1, 0, 0, 0, 0], [2, 1, 0, 0, 0, 0, 0], [0, 0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0, 0]];\n    expect(game.checkForWinOrTie(board)).to.be[\"false\"];\n  });\n});\n\n//# sourceURL=webpack:///./client/test/test.jsx?");
 
 /***/ }),
 

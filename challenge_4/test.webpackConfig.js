@@ -1,11 +1,11 @@
 const path = require('path');
-const entry = path.join(__dirname, '/client/src/app.jsx');
-const outputDir = path.join(__dirname, '/public');
+const entry = path.join(__dirname, '/client/test/test.jsx');
+const outputDir = path.join(__dirname, '/tests');
 
 module.exports = {
   entry: entry,
   output: {
-    filename: 'bundle.js',
+    filename: 'testBundle.js',
     path: outputDir
   },
   module: {
